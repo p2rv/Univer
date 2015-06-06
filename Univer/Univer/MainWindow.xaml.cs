@@ -20,8 +20,13 @@ namespace Univer
     /// </summary>
     struct Specialty
     {
+        private string specialtyCode;
         public string FullName { get; set; }
-        public string SpecialtyCode { get; set; }
+        public string SpecialtyCode 
+        {
+            get { return specialtyCode; }
+            set { specialtyCode = value; } //сюда необходимо добавить проверку на корректность значения 
+        }
     }
     struct Person
     {
