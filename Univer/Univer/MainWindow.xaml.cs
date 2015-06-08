@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,15 +19,33 @@ namespace Univer
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    struct Specialty
+    class Specialty
     {
         private string specialtyCode;
         public string FullName { get; set; }
+        public virtual string Name { get; set; }
         public string SpecialtyCode 
         {
             get { return specialtyCode; }
-            set { specialtyCode = value; } //сюда необходимо добавить проверку на корректность значения 
+            set 
+            {
+                Regex reg = new Regex(@"[^0-9]|\S"); //Здесь что то не работает
+                if(reg.IsMatch(value))
+                    specialtyCode = value; 
+                else
+                     throw new FormatException();
+            } 
         }
+    }
+    class Group:Specialty
+    {
+        private DateTime year;
+        private byte index;
+        public override string Name
+        {
+            get { return base.Name + "-" + year.Year.ToString() + "-" + index.ToString(); }
+        }
+       // public Specialty 
     }
     struct Person
     {
@@ -66,6 +85,15 @@ namespace Univer
         public MainWindow()
         {
             InitializeComponent();
+            
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Specialty spec = new Specialty();
+            spec.Name = tBox1.Text;
+            spec.FullName = tBox2.Text;
+            spec.SpecialtyCode = tBox3.Text;
         }
     }
 }
