@@ -29,8 +29,8 @@ namespace Univer
             get { return specialtyCode; }
             set 
             {
-                Regex reg = new Regex(@"[^0-9]|\S"); //Здесь что то не работает
-                if(reg.IsMatch(value))
+                Regex reg =  new Regex(@"[^0-9.]+");
+                if(!reg.IsMatch(value))
                     specialtyCode = value; 
                 else
                      throw new FormatException();
@@ -90,7 +90,7 @@ namespace Univer
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Specialty spec = new Specialty();
+            Group spec = new Group();
             spec.Name = tBox1.Text;
             spec.FullName = tBox2.Text;
             spec.SpecialtyCode = tBox3.Text;
