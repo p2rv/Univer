@@ -39,22 +39,41 @@ namespace Univer
     }
     class Group:Specialty
     {
-        private DateTime year;
-        private byte index;
+        private int year;
+        private byte number;
+        public Group(byte number,int year)
+        {
+            this.number = number;
+            if (year > 2000 && year < 2100)
+                this.year = year;
+            else
+                throw new FormatException();
+        }
         public override string Name
         {
-            get { return base.Name + "-" + year.Year.ToString() + "-" + index.ToString(); }
+            get { return base.Name + "-" + year.ToString() + "-" + number.ToString(); }
         }
-       // public Specialty 
+        public int Year 
+        {
+            get { return year; }
+            set
+            {
+                if (year > 2000 && year < 2100)
+                    year = value;
+                else
+                    throw new FormatException();
+            } 
+        }
     }
-    struct Person
+    class PersonalData
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
     }
     struct Student
     {
-        private Person person;
+        private PersonalData person;
         public string FirstName
         {
             get { return person.FirstName; }
@@ -68,7 +87,7 @@ namespace Univer
     }
     struct Teacher
     {
-        private Person person;
+        private PersonalData person;
         public string FirstName
         {
             get { return person.FirstName; }
@@ -90,7 +109,7 @@ namespace Univer
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Group spec = new Group();
+            Group spec = new Group(1, 2015);
             spec.Name = tBox1.Text;
             spec.FullName = tBox2.Text;
             spec.SpecialtyCode = tBox3.Text;
