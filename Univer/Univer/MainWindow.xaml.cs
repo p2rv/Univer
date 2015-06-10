@@ -69,35 +69,20 @@ namespace Univer
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string DateofBirth { get; set; }
 
     }
-    struct Student
+    class Student:PersonalData
     {
-        private PersonalData person;
-        public string FirstName
-        {
-            get { return person.FirstName; }
-            set { person.FirstName = value; }
-        }
-        public string LastName
-        {
-            get { return person.LastName; }
-            set { person.LastName = value; }
-        }
+        private int studentIDNumber;
+        private Group group;
+        private byte courseNumber;
+        private bool starosta;
+        public int StudentIDNumber { get { return studentIDNumber; } }
     }
-    struct Teacher
+    class Teacher:PersonalData
     {
-        private PersonalData person;
-        public string FirstName
-        {
-            get { return person.FirstName; }
-            set { person.FirstName = value; }
-        }
-        public string LastName
-        {
-            get { return person.LastName; }
-            set { person.LastName = value; }
-        }
+       
     }
     public partial class MainWindow : Window
     {
