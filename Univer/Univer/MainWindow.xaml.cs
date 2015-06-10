@@ -41,6 +41,7 @@ namespace Univer
     {
         private int year;
         private byte number;
+        private List<Student> studentList;
         public Group(byte number,int year)
         {
             this.number = number;
@@ -48,6 +49,7 @@ namespace Univer
                 this.year = year;
             else
                 throw new FormatException();
+            studentList = new List<Student>();
         }
         public override string Name
         {
@@ -64,6 +66,22 @@ namespace Univer
                     throw new FormatException();
             } 
         }
+        public void AddStudent(Student student)
+        {
+            if (student != null)
+            {
+                //student.StudentGroup.RemoveStudent(student);
+                studentList.Add(student.ChangeGroup(this));
+            }
+            else
+                throw new ArgumentNullException("function AddStudent(student) error. student is null");
+        }
+        public void RemoveStudent(Student student) //вместо ремув необходимо сделать метод который будет делать студента не активным
+        {
+            if (student != null)
+                student.StatusIsActive = false;
+
+        }
     }
     class PersonalData
     {
@@ -74,11 +92,49 @@ namespace Univer
     }
     class Student:PersonalData
     {
+        private bool statusIsActiv;
         private int studentIDNumber;
         private Group group;
         private byte courseNumber;
         private bool starosta;
+        public Student(Group group, byte courseNumber, int studentIDNumber, bool starosta=false)
+        {
+            if (group != null)
+                this.group=group;
+            else
+                throw new ArgumentNullException("Error in Student constructor. Group is null");
+            this.courseNumber = courseNumber;
+            this.studentIDNumber = studentIDNumber;
+            this.starosta = starosta;
+            statusIsActiv = true;
+        }
+        private Student(Student student)
+        {
+            group = student.StudentGroup;
+            studentIDNumber = student.StudentIDNumber;
+            courseNumber = student.courseNumber;
+            starosta = false;
+            statusIsActiv = true;
+        }
         public int StudentIDNumber { get { return studentIDNumber; } }
+        public Group StudentGroup { get { return group; } }
+        public Student ChangeGroup(Group newGroup)
+        {
+            if (newGroup != group)
+            {
+                statusIsActiv = false;
+                Student student = new Student(this);
+                return student;
+            }
+            else
+                return this;
+        }
+        public bool Starosta
+        {
+            get { return starosta; }
+            set { starosta = value; }
+        }
+        public bool StatusIsActive { get { return statusIsActiv; } }
     }
     class Teacher:PersonalData
     {
